@@ -1,25 +1,37 @@
-interface human {
-    name:string,
-    age:number,
-    gender:string
-}
+import * as Crypto from "crypto-js";
 
-const person ={
-    name:"nico",
-    age:22,
-    gender:"male"
-}
+class Block{
+    public index: number;
+    public hash:string;
+    public previousHash:string;
+    public data:string;
+    public timestamp:number;
 
-const name = "nicolas",
-    age=24,
-    gender="male"
+    static calculateBlockHash = (
+        index:number,
+        previousHash:string,
+        timestamp:number,
+        data:string
+    ):string=>Crypto.SHA256(index+previousHash+timestamp+data).toString();
 
-    const sayHi =(person:human):string=>{
-        return(`::::::hellow ${name} you are ${age} you are a ${gender}:::::`);
+    constructor(index:number,hash:string,previousHash:string,data:string,timestamp:number){
+        this.index=index;
+        this.hash=hash;
+        this.previousHash=previousHash;
+        this.data=data;
+        this.timestamp=timestamp;
     }
+}
 
-    console.log(sayHi(person));
+const genesisBlock:Block = new Block(0,"299292929","","hellow",123456);
+
+let blockchain:Block[]=[genesisBlock];
+
+const getBlockchain = ():Block[] => blockchain;
+const getLatestBlock=():Block =>blockchain[blockchain.length -1];
+const getnewTimeStamp =():number => Math.round(new Date().getTime() / 1000);
+
+console.log(blockchain);
+// console.log(":::A:::",Block.calculateBlockHash(23,"aa",11,"aa"));
 
     export{};
-
-    //"?"mark is optional => 있거나 없거나 ,값이 없을때는 undefind로 표시 된다.
