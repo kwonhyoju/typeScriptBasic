@@ -16,5 +16,13 @@ let blockchain = [genesisBlock];
 const getBlockchain = () => blockchain;
 const getLatestBlock = () => blockchain[blockchain.length - 1];
 const getnewTimeStamp = () => Math.round(new Date().getTime() / 1000);
-console.log(blockchain);
+const createNewBlock = (data) => {
+    const previousBlock = getLatestBlock();
+    const newIndex = previousBlock.index + 1;
+    const newTimestamp = getnewTimeStamp();
+    const newHash = Block.calculateBlockHash(newIndex, previousBlock.hash, newTimestamp, data);
+    const newBlock = new Block(newIndex, newHash, previousBlock.hash, data, newTimestamp);
+    return newBlock;
+};
+console.log(createNewBlock("hellow"), createNewBlock("byebye"));
 //# sourceMappingURL=index.js.map
